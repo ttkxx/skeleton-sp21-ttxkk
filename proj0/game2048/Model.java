@@ -173,21 +173,22 @@ public class Model extends Observable {
     public static boolean atLeastOneMoveExists(Board b) {
         // TODO: Fill in this function.
         int n=b.size();
-        // TODO: 去除冗余空判断
-        for (int j = 0; j < n - 1; j++) {
-            for (int i = 0; i < n - 1; i++) {
-                Tile tileij=b.tile(i,j);
-                if(tileij==null) return true;
-                Tile tileijAbove=b.tile(i,j+1);
-                Tile tileijRight=b.tile(i+1,j);
-                if(tileijAbove==null||tileijRight==null||tileij.value()==tileijAbove.value()||tileij.value()==tileijRight.value())return true;
-            }
-            Tile tileRightest=b.tile(n-1,j);
-            Tile tileRightestAbove=b.tile(n-1,j+1);
-            if(tileRightest==null||tileRightestAbove==null||tileRightest.value()==tileRightestAbove.value())return true;
+        if(b.tile(0,0)==null) return true;
+        // There are no redundant judgments in this way.
+        for(int i=1;i<n;i++) {
+            Tile t=b.tile(i,0);
+            if(t==null||b.tile(i-1,0).value()==t.value())return true;
         }
-        for (int i = 0; i < n - 1; i++) {
-            if(b.tile(i,n-1).value()==b.tile(i+1,n-1).value())return true;
+        for(int j=1;j<n;j++) {
+            Tile t=b.tile(0,j);
+            if(t==null||b.tile(0,j-1).value()==t.value())return true;
+        }
+        for (int i = 1; i < n; i++) {
+            for (int j = 1; j < n; j++) {
+                Tile t=b.tile(i,j);
+                if(t==null) return true;
+                if(t.value()==b.tile(i-1,j).value()||t.value()==b.tile(i,j-1).value()) return true;
+            }
         }
         return false;
     }
