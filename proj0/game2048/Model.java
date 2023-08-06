@@ -172,6 +172,23 @@ public class Model extends Observable {
      */
     public static boolean atLeastOneMoveExists(Board b) {
         // TODO: Fill in this function.
+        int n=b.size();
+        // TODO: 去除冗余空判断
+        for (int j = 0; j < n - 1; j++) {
+            for (int i = 0; i < n - 1; i++) {
+                Tile tileij=b.tile(i,j);
+                if(tileij==null) return true;
+                Tile tileijAbove=b.tile(i,j+1);
+                Tile tileijRight=b.tile(i+1,j);
+                if(tileijAbove==null||tileijRight==null||tileij.value()==tileijAbove.value()||tileij.value()==tileijRight.value())return true;
+            }
+            Tile tileRightest=b.tile(n-1,j);
+            Tile tileRightestAbove=b.tile(n-1,j+1);
+            if(tileRightest==null||tileRightestAbove==null||tileRightest.value()==tileRightestAbove.value())return true;
+        }
+        for (int i = 0; i < n - 1; i++) {
+            if(b.tile(i,n-1).value()==b.tile(i+1,n-1).value())return true;
+        }
         return false;
     }
 
