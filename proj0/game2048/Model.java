@@ -215,7 +215,7 @@ public class Model extends Observable {
 
         for (int i = 0; i < n; i++) {
             Tile lastedTile=board.tile(i,n-1);
-            boolean isMerged=false;
+            boolean merged=false;
             int viewJ=n-1;
             for (int j = n-2; j >=0; j--) {
                 Tile tile=board.tile(i,j);
@@ -223,18 +223,18 @@ public class Model extends Observable {
                 if(lastedTile==null){
                     board.move(i,viewJ,tile);
                     changed=true;
-                }else if(!isMerged&&lastedTile.value()==tile.value()){// merge
+                }else if(!merged&&lastedTile.value()==tile.value()){// merge
                     board.move(i,viewJ,tile);
                     changed=true;
-                    isMerged=true;
+                    merged=true;
                     this.score+=tile.next().value();
                 }else if(j<viewJ-1){
                     board.move(i,viewJ-1,tile);
                     changed=true;
-                    isMerged=false;
+                    merged=false;
                     viewJ--;
                 }else{
-                    isMerged=false;
+                    merged=false;
                     viewJ--;
                 }
                 lastedTile=tile.next()==null?tile:tile.next();
